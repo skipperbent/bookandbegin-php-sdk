@@ -9,9 +9,10 @@ use Pecee\Http\Rest\RestBase;
 abstract class ServiceBase extends RestBase implements IRestEventListener {
 
     const TYPE = '';
-    const SERVICE_ENDPOINT = 'https://bookandbegin.com/api/v1/';
-    const SERVICE_ENDPOINT_DEVELOPMENT = 'http://local.bookandbegin.com/api/v1/';
+    const SERVICE_ENDPOINT = 'http://%s.bookandbegin.com/api/v1/';
+    const SERVICE_ENDPOINT_DEVELOPMENT = 'http://bbc.com/api/v1/';
 
+    protected $identifier;
     protected $apiToken;
 
     /**
@@ -19,20 +20,21 @@ abstract class ServiceBase extends RestBase implements IRestEventListener {
      */
     protected $httpResponse;
 
-    public function __construct($apiToken) {
+    public function __construct($domain, $apiToken) {
+        $this->identifier = $domain;
         $this->apiToken = $apiToken;
 
         parent::__construct();
 
-        $serviceUrl = (getenv('DEBUG')) ? static::SERVICE_ENDPOINT_DEVELOPMENT : static::SERVICE_ENDPOINT;
+        $serviceUrl = (getenv('DEBUG')) ? static::SERVICE_ENDPOINT_DEVELOPMENT : sprintf(static::SERVICE_ENDPOINT, $this->identifier);
         $this->serviceUrl = rtrim($serviceUrl, '/') . '/' . static::TYPE;
+        $this->serviceUrl .= '?api_token=' . $this->apiToken;
 
         $this->httpRequest->setOptions([
             CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_SSL_VERIFYPEER => false
         ]);
 
-        $this->httpRequest->addHeader('X-Api-Token: ' . $this->apiToken);
         $this->httpRequest->setTimeout(20000);
     }
 
