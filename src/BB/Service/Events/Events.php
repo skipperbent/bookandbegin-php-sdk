@@ -26,11 +26,11 @@ class Events extends ServiceRest {
     }
 
     public function onCreateCollection() {
-        return new static($this->getIdentifier(), $this->getApiToken());
+        return new static($this->getApiToken());
     }
 
     public function onCreateItem() {
-        return new Event($this->getIdentifier(), $this->getApiToken());
+        return new Event($this->getApiToken());
     }
 
 }

@@ -22,11 +22,11 @@ class Attachments extends ServiceRest {
     }
 
     public function onCreateCollection() {
-        return new static($this->getIdentifier(), $this->getApiToken());
+        return new static($this->getApiToken());
     }
 
     public function onCreateItem() {
-        return new Attachment($this->getIdentifier(), $this->getApiToken());
+        return new Attachment($this->getApiToken());
     }
 
 }
