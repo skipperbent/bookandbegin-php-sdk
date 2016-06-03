@@ -10,7 +10,7 @@ abstract class ServiceBase extends RestBase implements IRestEventListener {
 
     const TYPE = '';
     const SERVICE_ENDPOINT = 'http://%s.bookandbegin.com/api/v1/';
-    const SERVICE_ENDPOINT_DEVELOPMENT = 'http://bbc.com/api/v1/';
+    const SERVICE_ENDPOINT_DEVELOPMENT = 'http://local.bbc.com/api/v1/';
 
     protected $identifier;
     protected $apiToken;
@@ -20,15 +20,14 @@ abstract class ServiceBase extends RestBase implements IRestEventListener {
      */
     protected $httpResponse;
 
-    public function __construct($domain, $apiToken) {
-        $this->identifier = $domain;
+    public function __construct($identifier, $apiToken) {
+        $this->identifier = $identifier;
         $this->apiToken = $apiToken;
 
         parent::__construct();
 
         $serviceUrl = (getenv('DEBUG')) ? static::SERVICE_ENDPOINT_DEVELOPMENT : sprintf(static::SERVICE_ENDPOINT, $this->identifier);
         $this->serviceUrl = rtrim($serviceUrl, '/') . '/' . static::TYPE;
-        $this->serviceUrl .= '?api_token=' . $this->apiToken;
 
         $this->httpRequest->setOptions([
             CURLOPT_SSL_VERIFYHOST => false,
@@ -108,6 +107,8 @@ abstract class ServiceBase extends RestBase implements IRestEventListener {
 
         $data = array_merge($this->httpRequest->getPostData(), $data);
 
+        $url = $url . '?api_token=' . $this->apiToken;
+
         // Execute the API-call
         return $this->onResponseReceived( parent::api($url, $method, $data) );
     }
@@ -117,6 +118,10 @@ abstract class ServiceBase extends RestBase implements IRestEventListener {
      */
     public function getApiToken() {
         return $this->apiToken;
+    }
+
+    public function getIdentifier() {
+        return $this->identifier;
     }
 
     /**
