@@ -22,11 +22,11 @@ class Messages extends ServiceRest {
     }
 
     public function onCreateCollection() {
-        return new static($this->getApiToken());
+        return new static($this->getIdentifier(), $this->getApiToken());
     }
 
     public function onCreateItem() {
-        return new Message($this->getApiToken());
+        return new Message($this->getIdentifier(), $this->getApiToken());
     }
 
 }
