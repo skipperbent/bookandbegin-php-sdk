@@ -9,7 +9,7 @@ use Pecee\Http\Rest\RestBase;
 abstract class ServiceBase extends RestBase implements IRestEventListener {
 
     const TYPE = '';
-    const SERVICE_ENDPOINT = 'http://%s.bookandbegin.com/api/v1/';
+    const SERVICE_ENDPOINT = 'https://%s.bookandbegin.com/api/v1/';
     const SERVICE_ENDPOINT_DEVELOPMENT = 'http://local.bbc.com/api/v1/';
 
     protected $identifier;
