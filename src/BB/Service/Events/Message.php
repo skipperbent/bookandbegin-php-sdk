@@ -6,8 +6,8 @@ use Pecee\Http\Rest\RestItem;
 
 class Message extends RestItem implements IServiceItem {
 
-    public function __construct($identifier, $apiToken) {
-        parent::__construct(new Messages($identifier, $apiToken));
+    public function __construct($apiToken) {
+        parent::__construct(new Messages($apiToken));
     }
 
 }

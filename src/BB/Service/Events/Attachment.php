@@ -6,8 +6,8 @@ use Pecee\Http\Rest\RestItem;
 
 class Attachment extends RestItem implements IServiceItem {
 
-    public function __construct($identifier, $apiToken) {
-        parent::__construct(new Attachments($identifier, $apiToken));
+    public function __construct($apiToken) {
+        parent::__construct(new Attachments($apiToken));
     }
 
 }
